@@ -21,24 +21,53 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<{}> {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      title: 'Estoy cargando',
+      texto: 'Hola Mundo'
+    }
+  }
+
+  // componentWillMount() {
+  //   // Antes de ejecutar el render
+  //   console.log("componentWillMount this.state-title", this.state.title)
+  // }
+
+  componentDidMount(){
+    // Despues de ejecutar el render
+    setTimeout( () => {
+      this.setState({ title: 'Ya he terminado de cargar' })
+    }, 4000)
+
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate PrevState", prevState)
+    console.log("componentDidUpdate this.state", this.state.title)
+    if(prevState.title != this.state.title){
+      this.setState({texto: 'Hasta luego Lucas!'})
+    }
+  }
+
   render() {
-    const titulo = "Mi pedaso App!!"
+    //const title = "Mi peaso App!!"
+    console.log('this.state.title', this.state.title)
     return (
-      
+
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to {titulo}
+          { this.state.title }
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-
+        <Text style={styles.welcome}>
+          { this.state.texto }
         </Text>
       </View>
     );
   }
+
+
 }
 
 const styles = StyleSheet.create({
@@ -49,13 +78,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 24,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    color: 'blue',
   },
 });
