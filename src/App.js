@@ -9,7 +9,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 
 const instructions = Platform.select({
@@ -21,16 +22,19 @@ const instructions = Platform.select({
 
 export default class App extends Component<{}> {
   render() {
+    const titulo = "Mi pedaso App!!"
     return (
+      
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to {titulo}
         </Text>
         <Text style={styles.instructions}>
           To get started, edit App.js
         </Text>
         <Text style={styles.instructions}>
           {instructions}
+
         </Text>
       </View>
     );
