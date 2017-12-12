@@ -8,9 +8,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 
-import Screen1 from './sections/Screen1';
-import Screen2 from './sections/Screen2';
-
+import HousesList from './sections/houses/HousesList';
 
 export default class App extends Component {
 
@@ -19,15 +17,10 @@ export default class App extends Component {
     return (
       <Router>
         <Scene key="root">
-            <Scene
-              key={'screen1'}
-              component = {Screen1}
-            />
-
-            <Scene
-              key={'screen2'}
-              component = {Screen2}
-            />
+          <Scene
+            key = { 'HousesList' }
+            component = { HousesList }
+          />
         </Scene>
       </Router>
     );
