@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, FlatList, Button} from 'react-native';
-import axios from 'axios';
+import { AsyncCalls, Colors } from 'miReact/src/commons'
 
 export default class HousesList extends Component {
 
@@ -12,18 +12,10 @@ export default class HousesList extends Component {
     }
   }
 
-  componentWillMount(){
-    axios.get('http://146.185.137.85/got/web/casas')
-
-      .then( (response) => {
-        console.log("axios get response: ", response);
-        const miList = response.data && response.data.records ? response.data.records : []
-        this.setState( { list: miList })
-      })
-
-      .catch( (error) => {
-        console.log("axios get error: ", error);
-      });
+  componentWillMount() {
+    return AsyncCalls.fetchHousesList().then(response => {
+        this.setState({ list: response })
+    })
   }
 
   checkIsSelected(item){
@@ -55,8 +47,8 @@ export default class HousesList extends Component {
   }
 
   render() {
-      console.log("this.state.list: ", this.state.list)
       const nombre = this.state.selected ? this.state.selected.nombre : ''
+
       return(
         <View>
 

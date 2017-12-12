@@ -9,8 +9,13 @@ import { View, StyleSheet } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 
 import HousesList from './sections/houses/HousesList';
+import * as webservices from './webservices/webservices'
 
 export default class App extends Component {
+
+  componentWillMount() {
+    webservices.configureAxios()
+  }
 
   render() {
 
