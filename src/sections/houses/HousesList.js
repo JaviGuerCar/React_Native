@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList, Button} from 'react-native';
+import { View, StyleSheet, Text, FlatList, Button, TouchableOpacity} from 'react-native';
 import { AsyncCalls, Colors } from 'miReact/src/commons'
+import { fetchAlternativo } from 'miReact/src/webservices/webservices'
 
 export default class HousesList extends Component {
 
@@ -13,10 +14,13 @@ export default class HousesList extends Component {
   }
 
   componentWillMount() {
-    return AsyncCalls.fetchHousesList().then(response => {
-        this.setState({ list: response })
-    })
-  }
+      fetchAlternativo('/casas').then( response => {
+          console.log("fetch response: ", response)
+          this.setState({ list: response.records })
+      }).catch( error => {
+          console.log("error: ", error)
+      })
+    }
 
   checkIsSelected(item){
     if(this.state.selected && (this.state.selected.id == item.id)){
@@ -37,11 +41,11 @@ export default class HousesList extends Component {
         <Text style={titleStyle}>{ item.nombre }</Text>
         <Text style={titleStyle}>{ item.lema }</Text>
 
-        <Button
-          title={'Seleccionar casa'}
-          onPress = { () => this.setState({ selected: item }) }
-          color = { botonStyle }
-        />
+        <TouchableOpacity style={styles.button} 
+          onPress = { () => this.setState({ selected: item }) }>
+          <Text style={styles.buttonText}>{'Seleccionar casa'}</Text>
+        </TouchableOpacity>
+
       </View>
     )
   }
@@ -50,7 +54,7 @@ export default class HousesList extends Component {
       const nombre = this.state.selected ? this.state.selected.nombre : ''
 
       return(
-        <View>
+        <View style={styles.container}>
 
           <Text style= {styles.title} > { nombre }</Text>
           <FlatList
@@ -65,6 +69,9 @@ export default class HousesList extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   cell: {
     height: 100,
     marginVertical: 10,
@@ -74,5 +81,18 @@ const styles = StyleSheet.create({
     fontSize : 20,
     textAlign: 'center',
     marginVertical: 20
+  },
+  button: {
+    borderColor: 'white',
+    borderWidth: 1,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    padding: 6,
+    borderRadius: 6
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center'
   }
 });
