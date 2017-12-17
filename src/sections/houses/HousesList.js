@@ -1,31 +1,20 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, FlatList, Button, TouchableOpacity} from 'react-native';
 import { AsyncCalls, Colors } from 'miReact/src/commons'
-import { fetchAlternativo } from 'miReact/src/webservices/webservices'
 import HousesCell from './HousesCell'
 
-export default class HousesList extends Component {
+// REDUX imports
+import { connect } from 'react-redux'
+import * as HousesActions from 'miReact/src/redux/actions/houses'
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      list: [],
-      selected: null
-    }
-  }
+class HousesList extends Component {
 
   componentWillMount() {
-      fetchAlternativo('/casas').then( response => {
-          console.log("fetch response: ", response)
-          this.setState({ list: response.records })
-      }).catch( error => {
-          console.log("error: ", error)
-      })
+      this.props.fetchHousesList()
   }
 
   onSelect(house) {
-    console.log("house: ", house)
-    this.setState({ selected: house })
+    //this.setState({ selected: house })
   }
 
   renderItem(item, index){
@@ -38,11 +27,12 @@ export default class HousesList extends Component {
   }
 
   render() {
+    console.log('this.props.list: ', this.props.list)
       return(
         <View style={styles.container}>
 
           <FlatList
-            data = { this.state.list }
+            data = { this.props.list }
             renderItem = { ({ item, index }) => this.renderItem(item, index) }
             keyExtractor = {( item, index ) => item.id }
             extraData = { this.state }
@@ -52,6 +42,23 @@ export default class HousesList extends Component {
       )
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log("state: ", state)
+  return {
+    list: state.houses.list
+  }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    fetchHousesList: () => {
+      dispatch(HousesActions.fetchHousesList())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HousesList)
 
 const styles = StyleSheet.create({
   container: {

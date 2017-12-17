@@ -6,7 +6,7 @@ export default class HousesCell extends Component { 
     // Propiedades por defecto, sirven para evitar fallos y documentar el comp.
     static defaultProps = {
         onSelect    : () => {},
-        item        : {}
+        item        : {},
     }
 
     render() {
