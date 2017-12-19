@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList, Button, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, FlatList, Button, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { AsyncCalls, Colors } from 'miReact/src/commons'
 import HousesCell from './HousesCell'
 
@@ -14,7 +14,12 @@ class HousesList extends Component {
   }
 
   onSelect(house) {
-    //this.setState({ selected: house })
+      this.props.updateSelected(house)
+  }
+
+  renderFooter(){
+    // devuelve un Act.Indicator que se anima si la prop isFetching es true
+    return <ActivityIndicator animating={this.props.isFetching} size='large' color='grey'/>
   }
 
   renderItem(item, index){
@@ -33,6 +38,7 @@ class HousesList extends Component {
 
           <FlatList
             data = { this.props.list }
+            ListFooterComponent = {() => this.renderFooter()}
             renderItem = { ({ item, index }) => this.renderItem(item, index) }
             keyExtractor = {( item, index ) => item.id }
             extraData = { this.state }
@@ -44,9 +50,12 @@ class HousesList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("state: ", state)
+  //console.log("state: ", state)
   return {
-    list: state.houses.list
+    // devolvemos el list del reducer houses del estado
+    list: state.houses.list,
+    selected: state.houses.item,
+    isFetching: state.houses.isFetching
   }
 }
 
@@ -54,6 +63,10 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     fetchHousesList: () => {
       dispatch(HousesActions.fetchHousesList())
+    },
+
+    updateSelected: (house) => { 
+      dispatch(HousesActions.updateHouseSelected(house))
     }
   }
 }
