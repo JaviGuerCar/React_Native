@@ -7,9 +7,13 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
-
-import HousesList from './sections/houses/HousesList';
 import * as webservices from './webservices/webservices'
+import { Colors } from 'miReact/src/commons'
+
+/*********************** CONST *************************/
+import HousesList from './sections/houses/HousesList';
+import CharacterList from './sections/characters/CharacterList';
+/********************************************************/
 
 /***************************** REDUX ********************************/
 import { createStore, applyMiddleware, combineReducers } from 'redux'
@@ -43,6 +47,12 @@ export default class App extends Component {
               component = { HousesList }
               hideNavBar
             />
+            <Scene
+              key = { 'CharacterList'}
+              component = { CharacterList }
+              navigationBarStyle = {styles.navBar}
+              navBarButtonColor = {'white'}
+            />
           </Scene>
         </Router>
       </Provider>
@@ -51,5 +61,7 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-
+  navBar: {
+    backgroundColor: Colors.navBar
+  }
 });

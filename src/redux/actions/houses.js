@@ -35,11 +35,12 @@ export function fetchHousesList() {
             // Aqui ya ha cargado, lo ponemos a false
             dispatch(setHousesFetching(false))
 
-            console.log("fetch response: ", response)
+            console.log("fetchHousesList response: ", response)
             const list = response.records
             dispatch(updateHousesList(list))            
         }).catch( error => {
-            console.log("error: ", error)
+            console.log("fetchHousesList error: ", error)
+            dispatch(setHousesFetching(false))
         })
     }
 }

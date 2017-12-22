@@ -18,7 +18,7 @@ export default class HousesCell extends Component { 
         
         return (
             <TouchableOpacity style={styles.container} onPress = { () => onSelect(item) }>
-                <Image source={image} style={styles.imageStyle} resizeMode={'contain'}/>
+                <Image source={image} style={styles.imageStyle} resizeMode={'cover'}/>
             </TouchableOpacity>
         )
     } 
