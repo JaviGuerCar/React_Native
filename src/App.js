@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar, TouchableOpacity, Text } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 import * as webservices from './webservices/webservices'
 import { Colors } from 'miReact/src/commons'
@@ -13,6 +13,8 @@ import { Colors } from 'miReact/src/commons'
 /*********************** CONST *************************/
 import HousesList from './sections/houses/HousesList';
 import CharacterList from './sections/characters/CharacterList';
+import CharacterView from './sections/characters/CharacterView';
+import CharacterNew from './sections/characters/CharacterNew';
 /********************************************************/
 
 /***************************** REDUX ********************************/
@@ -36,6 +38,14 @@ export default class App extends Component {
     StatusBar.setBarStyle('light-content') // iOS StatusBar light style
   }
 
+  renderAddCharacterButton(){
+    return (
+      <TouchableOpacity style = {styles.addButton} onPress={() => Actions.CharacterNew()}>
+        <Text style = {styles.addButtonText}>{'Añadir'}</Text>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
 
     return (
@@ -52,7 +62,22 @@ export default class App extends Component {
               component = { CharacterList }
               navigationBarStyle = {styles.navBar}
               navBarButtonColor = {'white'}
+              renderRightButton = { this.renderAddCharacterButton() }
             />
+            <Scene
+              key = { 'CharacterView'}
+              component = { CharacterView }
+              navigationBarStyle = {styles.navBar}
+              navBarButtonColor = {'white'}  
+            />
+            <Scene
+              key = { 'CharacterNew'}
+              component = { CharacterNew }
+              navigationBarStyle = {styles.navBar}
+              navBarButtonColor = {'white'} 
+              title = {'Añadir'}
+            />
+
           </Scene>
         </Router>
       </Provider>
@@ -63,5 +88,15 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   navBar: {
     backgroundColor: Colors.navBar
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600'
+  },
+  addButton: {
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

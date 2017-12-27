@@ -13,7 +13,7 @@ export default class CharacterCell extends Component {
         const { item, onSelect } = this.props
         const nombre = item.nombre ? item.nombre : ''
         const edad = item.edad ? item.edad : ''
-        const image = item.image_dir ? { uri: item.image_dir } : null
+        const image = item.image_dir ? { uri: item.image_dir } : require('miReact/src/resources/placeholder.png')
 
         return(
             <TouchableOpacity onPress={ () => onSelect(item)}>
